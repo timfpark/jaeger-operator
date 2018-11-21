@@ -19,9 +19,11 @@ To install the operator, run:
 
 [source,bash]
 ----
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/rbac.yaml
-kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crd.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
 kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
+kubectl create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/io_v1alpha1_jaeger_crd.yaml
 ----
 
 At this point, there should be a `jaeger-operator` deployment available:
@@ -43,9 +45,11 @@ The instructions from the previous section also work on OpenShift given that the
 ----
 oc login -u system:admin
 
-oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/rbac.yaml
-oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crd.yaml
+oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
+oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
+oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
 oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator-openshift.yaml
+oc create -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/io_v1alpha1_jaeger_crd.yaml
 ----
 
 Once the operator is installed, grant the role `jaeger-operator` to users who should be able to install individual Jaeger instances. The following example creates a role binding allowing the user `developer` to create Jaeger instances:
@@ -336,6 +340,9 @@ Similar to the installation, just run:
 
 [source,bash]
 ----
-kubectl delete -f deploy/operator.yaml
-kubectl delete -f deploy/rbac.yaml
+kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/crds/io_v1alpha1_jaeger_crd.yaml
+kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/operator.yaml
+kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role_binding.yaml
+kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/role.yaml
+kubectl delete -f https://raw.githubusercontent.com/jaegertracing/jaeger-operator/master/deploy/service_account.yaml
 ----
